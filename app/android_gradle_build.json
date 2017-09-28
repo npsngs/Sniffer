@@ -1,0 +1,69 @@
+
+{
+	"buildFiles" : [ "E:/YxdSDK/Sniffer/app/CMakeLists.txt" ],
+	"cFileExtensions" : [ "c" ],
+	"cleanCommands" : 
+	[
+		"D:\\StudioStudio-SDK\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\YxdSDK\\Sniffer\\app --target clean"
+	],
+	"cppFileExtensions" : [ "cpp" ],
+	"libraries" : 
+	{
+		"native-lib-Debug-armeabi" : 
+		{
+			"abi" : "armeabi",
+			"artifactName" : "native-lib",
+			"buildCommand" : "D:\\StudioStudio-SDK\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\YxdSDK\\Sniffer\\app --target native-lib",
+			"buildType" : "debug",
+			"files" : 
+			[
+				
+				{
+					"flags" : "  --target=armv5te-none-linux-androideabi --gcc-toolchain=D:/StudioStudio-SDK/ndk-bundle/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64 --sysroot=D:/StudioStudio-SDK/ndk-bundle/sysroot  -Dnative_lib_EXPORTS -isystem D:\\StudioStudio-SDK\\ndk-bundle\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\include -isystem D:\\StudioStudio-SDK\\ndk-bundle\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\libs\\armeabi\\include -isystem D:\\StudioStudio-SDK\\ndk-bundle\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\include\\backward  -isystem D:/StudioStudio-SDK/ndk-bundle/sysroot/usr/include/arm-linux-androideabi -D__ANDROID_API__=15 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv5te -mtune=xscale -msoft-float -fno-integrated-as -mthumb -Wa,--noexecstack -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC    -c ",
+					"src" : "E:/YxdSDK/Sniffer/app/src/main/cpp/native-lib.cpp",
+					"workingDirectory" : "E:/YxdSDK/Sniffer/app"
+				},
+				
+				{
+					"flags" : "  --target=armv5te-none-linux-androideabi --gcc-toolchain=D:/StudioStudio-SDK/ndk-bundle/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64 --sysroot=D:/StudioStudio-SDK/ndk-bundle/sysroot -Dnative_lib_EXPORTS  -isystem D:/StudioStudio-SDK/ndk-bundle/sysroot/usr/include/arm-linux-androideabi -D__ANDROID_API__=15 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv5te -mtune=xscale -msoft-float -fno-integrated-as -mthumb -Wa,--noexecstack -Wformat -Werror=format-security  -O0 -fno-limit-debug-info  -fPIC      -c ",
+					"src" : "E:/YxdSDK/Sniffer/app/src/main/cpp/pcap.c",
+					"workingDirectory" : "E:/YxdSDK/Sniffer/app"
+				}
+			],
+			"output" : "E:/YxdSDK/Sniffer/app/build/intermediates/cmake/debug/obj/armeabi/libnative-lib.so",
+			"toolchain" : "4035972041"
+		},
+		"sniffer-Debug-armeabi" : 
+		{
+			"abi" : "armeabi",
+			"artifactName" : "sniffer",
+			"buildCommand" : "D:\\StudioStudio-SDK\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\YxdSDK\\Sniffer\\app --target sniffer",
+			"buildType" : "debug",
+			"files" : 
+			[
+				
+				{
+					"flags" : "  --target=armv5te-none-linux-androideabi --gcc-toolchain=D:/StudioStudio-SDK/ndk-bundle/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64 --sysroot=D:/StudioStudio-SDK/ndk-bundle/sysroot   -isystem D:/StudioStudio-SDK/ndk-bundle/sysroot/usr/include/arm-linux-androideabi -D__ANDROID_API__=15 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv5te -mtune=xscale -msoft-float -fno-integrated-as -mthumb -Wa,--noexecstack -Wformat -Werror=format-security  -O0 -fno-limit-debug-info       -c ",
+					"src" : "E:/YxdSDK/Sniffer/app/src/main/cpp/main.c",
+					"workingDirectory" : "E:/YxdSDK/Sniffer/app"
+				},
+				
+				{
+					"flags" : "  --target=armv5te-none-linux-androideabi --gcc-toolchain=D:/StudioStudio-SDK/ndk-bundle/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64 --sysroot=D:/StudioStudio-SDK/ndk-bundle/sysroot   -isystem D:/StudioStudio-SDK/ndk-bundle/sysroot/usr/include/arm-linux-androideabi -D__ANDROID_API__=15 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv5te -mtune=xscale -msoft-float -fno-integrated-as -mthumb -Wa,--noexecstack -Wformat -Werror=format-security  -O0 -fno-limit-debug-info       -c ",
+					"src" : "E:/YxdSDK/Sniffer/app/src/main/cpp/pcap.c",
+					"workingDirectory" : "E:/YxdSDK/Sniffer/app"
+				}
+			],
+			"output" : "E:/YxdSDK/Sniffer/app/sniffer",
+			"toolchain" : "4035972041"
+		}
+	},
+	"toolchains" : 
+	{
+		"4035972041" : 
+		{
+			"cCompilerExecutable" : "D:/StudioStudio-SDK/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe",
+			"cppCompilerExecutable" : "D:/StudioStudio-SDK/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe"
+		}
+	}
+}
