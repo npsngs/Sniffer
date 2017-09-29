@@ -26,33 +26,49 @@ void start_rec(const char* path) {
     ssize_t n;
     struct ethhdr *eth;
     struct iphdr *iph;
+    struct tcphdr *tcph;
     if ((sock = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_IP))) < 0) {
         perror("socket");
         return;
     }
 
     while (1) {
-        printf("=====================================\n");
         //注意：在这之前我没有调用bind函数，原因是什么呢？
         n = recvfrom(sock, ptr,PAGE_SIZE,0,NULL,NULL);
-        printf("%d bytes read\n",n);
+
         if(n < 0){
             return;
         }
         //接收到的数据帧头6字节是目的MAC地址，紧接着6字节是源MAC地址。
         eth=(struct ethhdr*)ptr;
-        printf("Dest MAC addr:%02x:%02x:%02x:%02x:%02x:%02x\n",eth->h_dest[0],eth->h_dest[1],eth->h_dest[2],eth->h_dest[3],eth->h_dest[4],eth->h_dest[5]);
-        printf("Source MAC addr:%02x:%02x:%02x:%02x:%02x:%02x\n",eth->h_source[0],eth->h_source[1],eth->h_source[2],eth->h_source[3],eth->h_source[4],eth->h_source[5]);
 
-        iph=(struct iphdr*)(ptr+sizeof(struct ethhdr));
-        //我们只对IPV4且没有选项字段的IPv4报文感兴趣
-        if(iph->version ==4 && iph->ihl == 5){
-            struct in_addr src, dst;
-            src.s_addr = iph->saddr;
-            dst.s_addr = iph->daddr;
+        __be16 proto = htons(eth->h_proto);
+        if(proto == 0x0800){
+            printf("=====================================\n");
+            printf("%d bytes read\n",n);
+            printf("Dest MAC addr:%02x:%02x:%02x:%02x:%02x:%02x\n",eth->h_dest[0],eth->h_dest[1],eth->h_dest[2],eth->h_dest[3],eth->h_dest[4],eth->h_dest[5]);
+            printf("Source MAC addr:%02x:%02x:%02x:%02x:%02x:%02x\n",eth->h_source[0],eth->h_source[1],eth->h_source[2],eth->h_source[3],eth->h_source[4],eth->h_source[5]);
+            printf("type:0x%04x\n",proto);
 
-            printf("Source host:%s\n",inet_ntoa(src));
-            printf("Dest host:%s\n",inet_ntoa(dst));
+            iph=(struct iphdr*)(ptr+sizeof(struct ethhdr));
+            printf("ip pro:0x%02x\n",iph->protocol);
+            if(iph->version ==4 && iph->ihl == 5 && iph->protocol == IPPROTO_TCP){
+                struct in_addr src, dst;
+                src.s_addr = iph->saddr;
+                dst.s_addr = iph->daddr;
+
+                printf("Source host:%s\n",inet_ntoa(src));
+                printf("Dest host:%s\n",inet_ntoa(dst));
+
+                tcph = (struct tcphdr*)(ptr+sizeof(struct ethhdr)+sizeof(struct iphdr));
+                printf("source:%d\n",tcph->source);
+                printf("dest:%d\n",tcph->dest);
+                printf("seq:%d\n",tcph->seq);
+                printf("ack_seq:%d\n",tcph->ack_seq);
+
+                char *s = (char *)(ptr + sizeof(struct ethhdr)+sizeof(struct iphdr)+sizeof(struct tcphdr));
+                printf(s);
+            }
         }
 
         ptr += n;
