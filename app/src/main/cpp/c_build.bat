@@ -2,6 +2,6 @@ D:\StudioStudio-SDK\ndk-bundle\toolchains\arm-linux-androideabi-4.9\prebuilt\win
 pause
 adb push E:\YxdSDK\Sniffer\app\src\main\cpp\sniffer /data/local/
 adb shell su -c chmod 777 /data/local/sniffer
-pause
+::pause
 adb shell su -c /data/local/sniffer
 pause

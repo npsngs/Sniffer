@@ -2,9 +2,9 @@
 
 
 void start_rec(const char* path) {
-    char *ferr = joinStr(path, "/stderr.txt");
+    /*char *ferr = joinStr(path, "/stderr.txt");
     freopen(ferr,"a",stderr);
-    free(ferr);
+    free(ferr);*/
 
     size_t  map_size = PAGE_SIZE*64;
     int fd = open("/data/local/mmap_f", O_CREAT|O_RDWR, 0777);
@@ -32,6 +32,7 @@ void start_rec(const char* path) {
         return;
     }
 
+    char str_buf[64];
     while (1) {
         //注意：在这之前我没有调用bind函数，原因是什么呢？
         n = recvfrom(sock, ptr,PAGE_SIZE,0,NULL,NULL);
@@ -57,17 +58,18 @@ void start_rec(const char* path) {
                 src.s_addr = iph->saddr;
                 dst.s_addr = iph->daddr;
 
-                printf("Source host:%s\n",inet_ntoa(src));
-                printf("Dest host:%s\n",inet_ntoa(dst));
-
                 tcph = (struct tcphdr*)(ptr+sizeof(struct ethhdr)+sizeof(struct iphdr));
-                printf("source:%d\n",tcph->source);
-                printf("dest:%d\n",tcph->dest);
+
+                //ipstr2name(str_buf, inet_ntoa(src), 64);
+                printf("Source host[%s:%d]\n",inet_ntoa(src), tcph->source);
+                //ipstr2name(str_buf, inet_ntoa(dst), 64);
+                printf("Dest host[%s:%d]\n",inet_ntoa(dst), tcph->dest);
+
                 printf("seq:%d\n",tcph->seq);
                 printf("ack_seq:%d\n",tcph->ack_seq);
 
-                char *s = (char *)(ptr + sizeof(struct ethhdr)+sizeof(struct iphdr)+sizeof(struct tcphdr));
-                printf(s);
+                /*char *s = (char *)(ptr + sizeof(struct ethhdr)+sizeof(struct iphdr)+sizeof(struct tcphdr));
+                printf(s);*/
             }
         }
 
@@ -89,10 +91,42 @@ char* joinStr(const char *s1, const char *s2) {
     return result;
 }
 
-void init(const char *pid) {
-    
+
+/* 作用：网络地址跟域名互相转化 */
+int ip2name(char *out_buf, const struct in_addr *addr, int maxlen) {
+    memset(out_buf, '\0', maxlen);
+
+    struct hostent *he;
+
+    he = gethostbyaddr(addr, 4, AF_INET);
+    if(he == NULL){
+        perror("ip2name fail ");
+        strncpy(out_buf, inet_ntoa(*addr), maxlen);
+        return -1;
+    }else{
+        strncpy(out_buf, he->h_name, maxlen);
+        return 0;
+    }
 }
 
-void sendMessage(Message *msg) {
+void ipstr2name(char *out_buf, const char *ip, int maxlen){
+    memset(out_buf, '\0', maxlen);
+    struct hostent *he;
 
+    struct in_addr *addr;
+    if(!inet_aton(ip, addr)){
+        perror("inet_aton fail ");
+        goto on_error;
+    }
+
+    if((he = gethostbyaddr(addr, 4, AF_INET) ) == NULL ) {
+        perror("ip2name fail ");
+        goto on_error;
+    }
+    strncpy(out_buf, he->h_name, maxlen);
+    return;
+
+
+    on_error:
+        strncpy(out_buf, inet_ntoa(*addr), maxlen);
 }

@@ -24,28 +24,13 @@ extern "C" {
 #include <sys/stat.h>
 #include <fcntl.h>
 
-typedef struct {
-    int32_t startPos;
-    int32_t len;
-}Message;
-
-/**
- * 建立双线程， 一个负责监听网卡数据并过滤，一个线程负责给客户应用程序新数据包通知
- */
-extern void init(const char *pid);
-
-
-/**
- * 给客户应用程序新数据包通知
- */
-extern void sendMessage(Message *msg);
-
 /**
  * 监听网卡数据并过滤
  */
 extern void start_rec(const char *path);
 extern char* joinStr(const char *s1, const char *s2);
-
+extern int ip2name(char *out_buf, const struct in_addr *addr, int maxlen);
+extern void ipstr2name(char *out_buf, const char *ip, int maxlen);
 #ifdef __cplusplus
 }
 #endif
