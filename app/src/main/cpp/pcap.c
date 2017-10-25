@@ -27,7 +27,9 @@ void start_rec(const char* path) {
     struct ethhdr *eth;
     struct iphdr *iph;
     struct tcphdr *tcph;
-    if ((sock = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_IP))) < 0) {
+
+    //可以监听网卡上的所有数据帧
+    if ((sock = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ALL))) < 0) {
         perror("socket");
         return;
     }
@@ -44,7 +46,8 @@ void start_rec(const char* path) {
         eth=(struct ethhdr*)ptr;
 
         __be16 proto = htons(eth->h_proto);
-        if(proto == 0x0800){
+        //
+        if(proto == ETH_P_IP){
             printf("=====================================\n");
             printf("%d bytes read\n",n);
             printf("Dest MAC addr:%02x:%02x:%02x:%02x:%02x:%02x\n",eth->h_dest[0],eth->h_dest[1],eth->h_dest[2],eth->h_dest[3],eth->h_dest[4],eth->h_dest[5]);
